@@ -34,7 +34,6 @@ def pack_micelle(a, bc, length, number, pdbname, headatom, tailatom):
     with open("test.inp", "w") as text_file:
         text_file.write(par)
     os.system("packmol < test.inp")
-    call(["pymol", out])
     print(par)
     return out
 
@@ -98,6 +97,7 @@ def micfit(datfile, pdbfile):
         rad = Dmax/2.0
         nmb = int(mowmi/mow)
         name = pack_micelle(rad, rad, float(le), nmb, pdbfile, int(aa1), int(aa2))
+        call(["pymol", name])
         os.system("rm *.fit")
         os.system("rm *.log")
         os.system("rm *.sav")
@@ -129,7 +129,6 @@ def micfit(datfile, pdbfile):
                 for n in nr:
                     name = pack_micelle(a, bc, float(le), n, pdbfile, int(aa1), int(aa2))
                     #call crysol and find the best solution
-                    os.system("rm *.fit")
                     os.system("rm *.log")
                     os.system("rm *.sav")
                     os.system("rm *.abs")
@@ -137,7 +136,8 @@ def micfit(datfile, pdbfile):
                     os.system("rm *.flm")
                     os.system("crysol " + name + " " + datfile)
                     os.system("primus *.fit")
-                    print("Chi^2 = ")
+                    #print("Chi^2 = ")
+        os.system("primus *.fit")
         exit()
 
 
